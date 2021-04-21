@@ -55,10 +55,18 @@ function Home(props: HomeProps) {
     const period = 570;
 
     const totalMinutes = firstNumber + period;
-    const hours = Math.floor(totalMinutes / 60);
+    let hours = Math.floor(totalMinutes / 60);
+
+    // Fixes more than 24 hours
+    // Ex: 27h would become 3AM in the other day
+    if (hours >= 24) {
+      hours -= 24;
+    }
+
     const minutes = totalMinutes % 60;
 
-    const addZeroToFormat = minutes < 10 ? '0' : '';
+    const addHoursZeroToFormat = hours < 10 ? '0' : '';
+    const addMinutesZeroToFormat = minutes < 10 ? '0' : '';
 
     /**
      * Zero to format example
@@ -68,7 +76,12 @@ function Home(props: HomeProps) {
      * without zero to format => 18:5
      * with zero to format => 18:05
      */
-    const end = String(hours) + ':' + addZeroToFormat + String(minutes);
+    const end =
+      addHoursZeroToFormat +
+      String(hours) +
+      ':' +
+      addMinutesZeroToFormat +
+      String(minutes);
 
     // Date
     const date = new Date();
