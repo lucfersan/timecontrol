@@ -104,6 +104,10 @@ function Home(props: HomeProps) {
   }, []);
 
   const removeTime = useCallback(id => {
+    const confirmation = confirm('Deseja mesmo deletar?');
+
+    if (!confirmation) return;
+
     setTimes(currentTimes => currentTimes.filter(time => time.id !== id));
   }, []);
 
