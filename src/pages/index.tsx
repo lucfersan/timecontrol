@@ -1,11 +1,34 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+
+import Cookies from 'js-cookie';
 
 import Input from '../components/Input';
 
 import { Container, Table, Form } from '../styles/pages/Home';
+import { GetServerSideProps } from 'next';
 
-function Home() {
-  const [times, setTimes] = useState([]);
+interface TimeProps {
+  id: number;
+  beginning: string;
+  period: string;
+  day: string;
+  end: string;
+}
+
+interface HomeProps {
+  times: TimeProps[];
+}
+
+function Home(props: HomeProps) {
+  const [times, setTimes] = useState<TimeProps[]>([]);
+
+  useEffect(() => {
+    setTimes(props.times);
+  }, []);
+
+  useEffect(() => {
+    Cookies.set('times', times);
+  }, [times]);
 
   const clearForm = useCallback(() => {
     document.querySelector('form').reset();
@@ -64,6 +87,7 @@ function Home() {
     };
 
     setTimes(currentTimes => [time, ...currentTimes]);
+    clearForm();
   }, []);
 
   const removeTime = useCallback(id => {
@@ -117,3 +141,23 @@ function Home() {
 }
 
 export default Home;
+
+export const getServerSideProps: GetServerSideProps = async ctx => {
+  const { times } = ctx.req.cookies;
+
+  if (!times) {
+    return {
+      props: {
+        times: [],
+      },
+    };
+  }
+
+  const parsedTimes = await JSON.parse(times);
+
+  return {
+    props: {
+      times: parsedTimes,
+    },
+  };
+};
