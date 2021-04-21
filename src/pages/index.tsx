@@ -4,13 +4,6 @@ import Input from '../components/Input';
 
 import { Container, Table, Form } from '../styles/pages/Home';
 
-interface TimeProps {
-  id: string;
-  beginning: string;
-  period: string;
-  end: string;
-}
-
 function Home() {
   const [times, setTimes] = useState([]);
 
@@ -54,10 +47,19 @@ function Home() {
      */
     const end = String(hours) + ':' + addZeroToFormat + String(minutes);
 
+    // Date
+    const date = new Date();
+    const dd = String(date.getDate()).padStart(2, '0');
+    const mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
+    const yyyy = date.getFullYear();
+
+    const today = dd + '/' + mm + '/' + yyyy;
+
     const time = {
       id: Date.now(),
       beginning: data.beginning,
       period: '9:30',
+      day: today,
       end,
     };
 
@@ -87,6 +89,7 @@ function Home() {
             <th>Início</th>
             <th>Período</th>
             <th>Encerramento</th>
+            <th>Dia</th>
             <th>Deletar</th>
           </tr>
         </thead>
@@ -97,6 +100,7 @@ function Home() {
               <td>{time.beginning}</td>
               <td>{time.period}</td>
               <td>{time.end}</td>
+              <td>{time.day}</td>
               <td>
                 <img
                   onClick={() => removeTime(time.id)}

@@ -36,6 +36,12 @@ export const Table = styled.table`
     padding: 0.5rem;
   }
 
+  th:nth-child(1),
+  td:nth-child(1) {
+    background-color: ${props => props.theme.colors.done};
+    color: ${props => props.theme.colors.white};
+  }
+
   th:nth-child(3),
   td:nth-child(3) {
     background-color: ${props => props.theme.colors.red};
