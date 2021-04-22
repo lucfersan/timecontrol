@@ -27,7 +27,9 @@ function Home(props: HomeProps) {
   }, []);
 
   useEffect(() => {
-    Cookies.set('times', times);
+    Cookies.set('times', times, {
+      expires: 31536000,
+    });
   }, [times]);
 
   const clearForm = useCallback(() => {
