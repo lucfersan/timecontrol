@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import Cookies from 'js-cookie';
 
@@ -22,6 +22,8 @@ interface HomeProps {
 function Home(props: HomeProps) {
   const [times, setTimes] = useState<TimeProps[]>([]);
 
+  const formRef = useRef(null);
+
   useEffect(() => {
     setTimes(props.times);
   }, []);
@@ -33,7 +35,11 @@ function Home(props: HomeProps) {
   }, [times]);
 
   const clearForm = useCallback(() => {
-    document.querySelector('form').reset();
+    if (!formRef.current) {
+      return;
+    }
+
+    formRef.current.reset();
   }, []);
 
   const addTime = useCallback(data => {
@@ -115,7 +121,7 @@ function Home(props: HomeProps) {
 
   return (
     <Container>
-      <Form onSubmit={addTime}>
+      <Form onSubmit={addTime} ref={formRef}>
         <Input type="time" name="beginning" />
 
         <div>
