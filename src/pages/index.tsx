@@ -44,6 +44,7 @@ function Home(props: HomeProps) {
 
   const addTime = useCallback(data => {
     if (!data.beginning) return;
+    if (!data.period) return;
 
     // If beginning = "09:10", then the array is [09, 10]
     const [a, b] = data.beginning.split(':');
@@ -60,7 +61,9 @@ function Home(props: HomeProps) {
     const firstNumber = Number(a) * 60 + Number(b);
 
     // By default the period is "9:30h" so in minutes this is 570
-    const period = 570;
+    const [c, d] = data.period.split(':');
+    const period = Number(c) * 60 + Number(d);
+    // const period = 570;
 
     const totalMinutes = firstNumber + period;
     let hours = Math.floor(totalMinutes / 60);
@@ -102,7 +105,7 @@ function Home(props: HomeProps) {
     const time = {
       id: Date.now(),
       beginning: data.beginning,
-      period: '9:30',
+      period: data.period,
       day: today,
       end,
     };
@@ -122,7 +125,8 @@ function Home(props: HomeProps) {
   return (
     <Container>
       <Form onSubmit={addTime} ref={formRef}>
-        <Input type="time" name="beginning" />
+        <Input type="time" name="beginning" id="início" />
+        <Input type="time" name="period" id="período" />
 
         <div>
           <button type="button" onClick={clearForm}>

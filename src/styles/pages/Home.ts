@@ -66,6 +66,13 @@ export const Form = styled(UnformForm)`
     border: 0;
   }
 
+  label p {
+    text-transform: capitalize;
+    font-size: 1.3rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+
   input {
     display: block;
     margin-bottom: 2rem;
