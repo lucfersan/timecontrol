@@ -19,7 +19,7 @@
 ![Time Control](.github/timecontrol.gif)
 
 This is an app to manage the period of time you have to work per day.
-The period here by default is 9h30m, which is 8h of work + 1h30m of lunch, you can change that if you want!
+You can use it by inserting the time you started working and the period you'll work for the day, and the app will give you automatically the time for you to stop.
 
 ### 🧰 Built With
 
