@@ -72,7 +72,7 @@ export const Form = styled(UnformForm)`
     input {
       display: inline-block;
       margin-bottom: 2rem;
-      width: 10rem;
+      width: 15rem;
       height: 1.3rem;
       padding: 1.2rem 1rem;
       border: 1px solid ${props => props.theme.colors.done};
@@ -102,7 +102,7 @@ export const Form = styled(UnformForm)`
       margin: 0 auto;
       color: ${props => props.theme.colors.red};
       border: 1px solid ${props => props.theme.colors.red};
-      width: 10rem;
+      width: 15rem;
       display: flex;
       align-items: center;
       justify-content: center;

@@ -122,7 +122,7 @@ function Home(props: HomeProps) {
           <button type="button" onClick={clearForm}>
             Cancelar
           </button>
-          <button type="submit">Adicionar</button>
+          <button type="submit">Adicionar Período</button>
         </div>
       </Form>
 
