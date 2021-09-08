@@ -107,8 +107,8 @@ function Home(props: HomeProps) {
     <Container>
       <Form onSubmit={addTime} ref={formRef}>
         <div>
-          <Input placeholder="Horas" type="number" name="hours" id="hours" min="0" max="24" />
-          <Input placeholder="Minutos" type="number" name="minutes" id="minutes" min="0" max="60" />
+          <Input placeholder="Horas" type="number" name="hours" id="hours" min="0" max="23" />
+          <Input placeholder="Minutos" type="number" name="minutes" id="minutes" min="0" max="59" />
         </div>
 
         <div>
