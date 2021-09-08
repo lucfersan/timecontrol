@@ -42,8 +42,15 @@ function Home(props: HomeProps) {
     formRef.current.reset();
   }, []);
 
-  const formatWithZero = useCallback((time: number): string => {
-    return time < 10 ? '0' : '';
+  const formatTime = useCallback((time: number): string => {
+    if (time.toString().length <= 2 && time > 1) return time.toString()
+    /*
+    * if time equals 00007
+    * time * 1 = 7
+    * adding the 0 => 07
+    */
+    const formattedTime = time < 1 ? '00' : ('0' + time * 1)
+    return formattedTime
   }, [])
 
   const addTime = useCallback(data => {
@@ -71,10 +78,10 @@ function Home(props: HomeProps) {
     }
 
     const minutes = totalMinutes % 60;
-    
-    const beginning = formatWithZero(date.getHours()) + String(date.getHours()) + ':' + formatWithZero(date.getMinutes()) + String(date.getMinutes());
-    const period = formatWithZero(dataHours) + String(dataHours) + ':' + formatWithZero(dataMinutes) + String(dataMinutes);
-    const end = formatWithZero(hours) + String(hours) + ':' + formatWithZero(minutes) + String(minutes);
+
+    const beginning = formatTime(date.getHours()) + ':' + formatTime(date.getMinutes());
+    const period = formatTime(dataHours) + ':' + formatTime(dataMinutes);
+    const end = formatTime(hours) + ':' + formatTime(minutes);
 
     // Date
     const dd = String(date.getDate()).padStart(2, '0');
