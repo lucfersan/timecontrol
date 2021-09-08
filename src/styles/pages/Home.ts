@@ -66,19 +66,27 @@ export const Form = styled(UnformForm)`
     border: 0;
   }
 
-  label p {
-    text-transform: capitalize;
-    font-size: 1.3rem;
-    font-weight: 500;
-    margin-bottom: 0.5rem;
-  }
+  div {
+    margin: 0 auto;
 
-  input {
-    display: block;
-    margin-bottom: 2rem;
-    width: 25rem;
-    height: 1.3rem;
-    padding: 1.2rem 1rem;
+    input {
+      display: inline-block;
+      margin-bottom: 2rem;
+      width: 10rem;
+      height: 1.3rem;
+      padding: 1.2rem 1rem;
+      border: 1px solid ${props => props.theme.colors.done};
+
+      &::placeholder {
+        text-align: left;
+        font-size: 1.2rem;
+        color: ${props => props.theme.colors.done};
+      }
+    }
+
+    & + div input {
+      margin-left: 0.5rem;
+    }
   }
 
   div {
@@ -92,9 +100,8 @@ export const Form = styled(UnformForm)`
       justify-content: center;
       transition: opacity 0.2s ease;
       margin: 0 auto;
-      color: ${props => props.theme.colors.text};
-      border: 1px solid ${props => props.theme.colors.text};
-      background: ${props => props.theme.colors.white};
+      color: ${props => props.theme.colors.red};
+      border: 1px solid ${props => props.theme.colors.red};
       width: 10rem;
       display: flex;
       align-items: center;
@@ -104,12 +111,18 @@ export const Form = styled(UnformForm)`
       &:hover {
         opacity: 0.9;
       }
+
+      & + button {
+        margin-left: 0.5rem;
+      }
     }
   }
 
   @media (max-width: 500px) {
-    input {
-      width: 13rem;
+    div {
+      input {
+        width: 13rem;
+      }
     }
 
     div {

@@ -9,7 +9,7 @@ import { GetServerSideProps } from 'next';
 
 interface TimeProps {
   id: number;
-  beginning: string;
+  hours: string;
   period: string;
   day: string;
   end: string;
@@ -42,30 +42,26 @@ function Home(props: HomeProps) {
     formRef.current.reset();
   }, []);
 
+  const formatWithZero = useCallback((time: number): string => {
+    return time < 10 ? '0' : '';
+  }, [])
+
   const addTime = useCallback(data => {
-    if (!data.beginning) return;
-    if (!data.period) return;
+    if ((!data.hours && !data.minutes) || (data.hours < 1 && !data.minutes)) return;
 
-    // If beginning = "09:10", then the array is [09, 10]
-    const [a, b] = data.beginning.split(':');
+    let dataHours = data.hours
+    let dataMinutes = data.minutes
 
-    /**
-     * Converting the number to minutes
-     *
-     * a is hours so I'm converting it to minutes
-     * Ex: 9 => 9 * 60 = 540
-     *
-     * b is minutes, so I'm summing it up with a
-     * Ex: 540 + 10 = 550
-     */
-    const firstNumber = Number(a) * 60 + Number(b);
+    // Fix data.minutes values like 00000
+    if (data.hours < 1 || !data.hours) dataHours = 0
+    if (data.minutes < 1 || !data.minutes) dataMinutes = 0
 
-    // By default the period is "9:30h" so in minutes this is 570
-    const [c, d] = data.period.split(':');
-    const period = Number(c) * 60 + Number(d);
-    // const period = 570;
-
-    const totalMinutes = firstNumber + period;
+    const date = new Date();
+    
+    const now = date.getHours() * 60 + date.getMinutes();
+    const periodInMinutes = Number(dataHours) * 60 + Number(dataMinutes);
+    
+    const totalMinutes = now + periodInMinutes;
     let hours = Math.floor(totalMinutes / 60);
 
     // Fixes more than 24 hours
@@ -75,27 +71,12 @@ function Home(props: HomeProps) {
     }
 
     const minutes = totalMinutes % 60;
-
-    const addHoursZeroToFormat = hours < 10 ? '0' : '';
-    const addMinutesZeroToFormat = minutes < 10 ? '0' : '';
-
-    /**
-     * Zero to format example
-     *
-     * if I have 18 hours and 5 minutes
-     *
-     * without zero to format => 18:5
-     * with zero to format => 18:05
-     */
-    const end =
-      addHoursZeroToFormat +
-      String(hours) +
-      ':' +
-      addMinutesZeroToFormat +
-      String(minutes);
+    
+    const beginning = formatWithZero(date.getHours()) + String(date.getHours()) + ':' + formatWithZero(date.getMinutes()) + String(date.getMinutes());
+    const period = formatWithZero(dataHours) + String(dataHours) + ':' + formatWithZero(dataMinutes) + String(dataMinutes);
+    const end = formatWithZero(hours) + String(hours) + ':' + formatWithZero(minutes) + String(minutes);
 
     // Date
-    const date = new Date();
     const dd = String(date.getDate()).padStart(2, '0');
     const mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
     const yyyy = date.getFullYear();
@@ -104,8 +85,8 @@ function Home(props: HomeProps) {
 
     const time = {
       id: Date.now(),
-      beginning: data.beginning,
-      period: data.period,
+      hours: beginning,
+      period,
       day: today,
       end,
     };
@@ -125,8 +106,10 @@ function Home(props: HomeProps) {
   return (
     <Container>
       <Form onSubmit={addTime} ref={formRef}>
-        <Input type="time" name="beginning" id="início" />
-        <Input type="time" name="period" id="período" />
+        <div>
+          <Input placeholder="Horas" type="number" name="hours" id="hours" min="0" max="24" />
+          <Input placeholder="Minutos" type="number" name="minutes" id="minutes" min="0" max="60" />
+        </div>
 
         <div>
           <button type="button" onClick={clearForm}>
@@ -150,7 +133,7 @@ function Home(props: HomeProps) {
         <tbody>
           {times.map(time => (
             <tr key={time.id}>
-              <td>{time.beginning}</td>
+              <td>{time.hours}</td>
               <td>{time.period}</td>
               <td>{time.end}</td>
               <td>{time.day}</td>

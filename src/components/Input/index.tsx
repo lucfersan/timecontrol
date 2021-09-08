@@ -18,10 +18,11 @@ const Input: React.FC<InputProps> = ({ name, id, ...rest }) => {
   }, [fieldName, registerField]);
 
   return (
-    <label htmlFor={id}>
-      <p>{id}</p>
-      <input defaultValue={defaultValue} ref={inputRef} {...rest} />
-    </label>
+    <div>
+      <label htmlFor={id}>
+        <input defaultValue={defaultValue} ref={inputRef} {...rest} />
+      </label>
+    </div>
   );
 };
 
