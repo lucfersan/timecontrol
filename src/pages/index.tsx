@@ -43,18 +43,22 @@ function Home(props: HomeProps) {
   }, []);
 
   const formatTime = useCallback((time: number): string => {
-    if (time.toString().length <= 2 && time > 1) return time.toString()
+    if (time.toString().length <= 2 && time > 1 && time >= 10) return time.toString()
     /*
     * if time equals 00007
     * time * 1 = 7
     * adding the 0 => 07
     */
-    const formattedTime = time < 1 ? '00' : ('0' + time * 1)
+    let formattedTime: string
+    if (time < 1) formattedTime = '00'
+    else if (time < 10) formattedTime = '0' + (time * 1)
+    else formattedTime = String(time * 1)
+
     return formattedTime
   }, [])
 
   const addTime = useCallback(data => {
-    if ((!data.hours && !data.minutes) || (data.hours < 1 && !data.minutes)) return;
+    if ((!data.hours && !data.minutes) || (data.hours < 1 && !data.minutes) || (data.hours < 1 && data.minutes < 1)) return;
 
     let dataHours = data.hours
     let dataMinutes = data.minutes
