@@ -35,7 +35,7 @@ You can use it by inserting the time you started working and the period you'll w
    ```
 2. Install the packages
    ```sh
-   cd todo-list-react
+   cd timecontrol
    yarn
    ```
 
